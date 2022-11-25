@@ -1,23 +1,27 @@
 import { ChangeEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as Identity from "@spica-devkit/identity"
+import { useNavigate } from 'react-router'
 
 export function Login() {
 
-
     const [form, setForm] = useState<{ email: string, password: string }>({ email: "", password: "" })
+    
+    const navigate = useNavigate()
 
     async function handleSubmit(event: any) {
-       const user = await login(form.email, form.password).catch(console.error)
-       console.log(user)
+        const user = await login(form.email, form.password).catch(console.error)
+        console.log(user)
+        navigate("/")
         event.preventDefault()
     }
     const handleForm = (event: ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
+
     const login = (identifier: any, password: any) => {
-        Identity.initialize({apikey: "", publicUrl: ""})
-       return  Identity.login(identifier, password)
+        Identity.initialize({ apikey: "", publicUrl: "" })
+        return Identity.login(identifier, password)
     }
 
     return (

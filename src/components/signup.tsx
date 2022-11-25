@@ -1,14 +1,17 @@
 import { ChangeEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as Identity from "@spica-devkit/identity"
+import { useNavigate } from 'react-router'
 
 export function SignUp() {
 
     const [form, setForm] = useState<{ email: string, password: string }>({ email: "", password: "" })
 
+    const navigate = useNavigate()
+
     async function handleSubmit(event: React.MouseEvent<HTMLButtonElement>) {
-        const user = await signup(form.email, form.password).catch(console.error)
-        console.log(user)
+        signup(form.email, form.password).catch(console.error)
+        navigate("/")
         event.preventDefault()
     }
     const handleForm = (event: ChangeEvent<HTMLInputElement>) => {

@@ -1,17 +1,13 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import * as Identity from "@spica-devkit/identity"
 
 import { Login } from './components/login'
 import { MainPage } from './components/main-page'
 import { SignUp } from './components/signup';
 
 function App() {
-
-
   return (
     <div>
-      <h1>spica authorization with react</h1>
+      <h1>Spica Authorization With React</h1>
 
       <Router>
         <Routes>
@@ -25,3 +21,4 @@ function App() {
 }
 
 export default App;
+
