@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 import { Link } from 'react-router-dom'
-import * as Identity from "@spica-devkit/identity"
 import { useNavigate } from 'react-router'
+import styles from "../App.module.css";
 
 export function Login() {
 
@@ -19,28 +19,55 @@ export function Login() {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
 
-    const login = (identifier: any, password: any) => {
-        Identity.initialize({ apikey: "", publicUrl: "" })
-        return Identity.login(identifier, password)
-    }
-
-    return (
+    const login = (identifier: string, password: string) => {
+        const requestOptions = {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            identifier: identifier,
+            password: password
+          })
+        }
+        let res = fetch('https://master.spicaengine.com/api/fn-execute/login', requestOptions)
+        return res
+      };
+    
+      return (
         <>
-            <div>
-                <form >
-                    <label htmlFor="input-email">Email
-                        <input name='email' type="email" onChange={(e) => handleForm(e)} />
-                    </label>
-                    <label htmlFor='input-password'>Password
-                        <input name='password' type="password" onChange={handleForm} />
-                    </label>
-                    <br />
-                    <p>
-                        Don't have an account? <Link to="/signup">Sign Up</Link>
-                    </p>
-                    <button type="submit" onClick={handleSubmit}>Login</button>
-                </form>
-            </div>
+          <div className={styles["formContainer"]}>
+            <h2 style={{ marginBottom: "10px" }}>Log In</h2>
+    
+            <form>
+              <div className={styles["inputContainer"]}>
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  className={styles["inputText"]}
+                  onChange={(e) => handleForm(e)}
+                />
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  className={styles["inputText"]}
+                  onChange={handleForm}
+                />
+              </div>
+              <p className={styles["redirectText"]}>
+                Don't have an account? <Link to="/signup">Sign Up</Link>
+              </p>
+              <div className={styles["buttonContainer"]}>
+                <button
+                  className={styles["authButton"]}
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
         </>
-    )
+      );
 }
